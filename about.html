@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About — Shalvi Raj</title>
+<script>!function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -47,7 +48,8 @@ p{font-size:0.9rem;color:var(--ink-muted);line-height:1.75;}
 }
 
 .rail-logo{width:36px;height:36px;margin-bottom:1.5rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.rail-logo svg{width:36px;height:36px;}
+.rail-logo svg{width:28px;height:37px;color:#111110;}
+[data-theme="dark"] .rail-logo svg{color:#EEECEA;}
 .rail-nav{display:flex;flex-direction:column;align-items:center;gap:0.125rem;width:100%;padding:0 0.375rem;}
 .rail-item{
   display:flex;flex-direction:column;align-items:center;gap:0.2rem;
@@ -62,12 +64,12 @@ p{font-size:0.9rem;color:var(--ink-muted);line-height:1.75;}
 
 /* MAIN */
 .main{margin-left:var(--rail-w);min-height:100vh;}
-.page-header{padding:4rem 4rem 2.5rem;max-width:760px;border-bottom:1px solid var(--border);}
+.page-header{padding:4rem 4rem 2.5rem;border-bottom:1px solid var(--border);}
 h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.75rem,3vw,2.5rem);line-height:1.1;letter-spacing:-0.015em;color:var(--ink);margin-bottom:0.5rem;}
 .page-sub{font-size:0.9375rem;color:var(--ink-muted);max-width:460px;line-height:1.7;}
 
 /* ABOUT CONTENT */
-.about-body{padding:3rem 4rem;max-width:760px;}
+.about-body{padding:3rem 4rem;}
 .about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:4rem;align-items:start;}
 .about-text p{font-size:0.9375rem;color:var(--ink-muted);line-height:1.8;margin-bottom:1.25rem;}
 .about-text p:last-child{margin-bottom:0;}
@@ -80,7 +82,7 @@ h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.75rem,3vw,2.5rem);
 .detail-list li::before{content:'—';position:absolute;left:0;opacity:0.35;}
 
 /* CONTACT */
-.contact-section{padding:0 4rem 4rem;max-width:760px;border-top:1px solid var(--border);padding-top:2.5rem;}
+.contact-section{padding:0 4rem 4rem;border-top:1px solid var(--border);padding-top:2.5rem;}
 .contact-label{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:1rem;}
 .contact-links{display:flex;gap:1rem;flex-wrap:wrap;}
 .contact-link{
@@ -131,13 +133,16 @@ h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.75rem,3vw,2.5rem);
   .fab{top:1rem;right:1rem;}
 }
 </style>
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta id="theme-color-meta" name="theme-color" content="#111110">
 </head>
 <body>
 
 <button class="fab" id="themeBtn" aria-label="Toggle theme">
   <svg class="icon-light" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="0.5" x2="7" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="12" x2="7" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="0.5" y1="7" x2="2" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="12" y1="7" x2="13.5" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="2.4" y1="2.4" x2="3.4" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="10.6" y1="10.6" x2="11.6" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="11.6" y1="2.4" x2="10.6" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.4" y1="10.6" x2="2.4" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
   <svg class="icon-dark" viewBox="0 0 14 14" fill="none"><path d="M11.5 8.5A5 5 0 015.5 2.5a5 5 0 000 9 5 5 0 006-3z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-  <span id="themeLbl">Dark</span>
+  <span id="themeLbl">Light</span>
 </button>
 
 <!-- BOTTOM NAV (mobile) -->
@@ -159,7 +164,7 @@ h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.75rem,3vw,2.5rem);
 </nav>
 
 <aside class="rail">
-  <a href="index.html" class="rail-logo" title="Shalvi Raj"><svg viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="12" y1="8" x2="12" y2="42" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M12 8 Q26 8 26 17 Q26 26 12 26" stroke="var(--ink)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 26 Q20 26 28 42" stroke="var(--ink)" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M26 10 Q32 5 30 13 Q28 18 18 20 Q8 22 10 29 Q12 36 22 33" stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></a>
+  <a href="index.html" class="rail-logo" title="Shalvi Raj"><svg viewBox="0 0 347 457" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1,0,0,1,-2418.104098,-3404.493534)"><g transform="matrix(1.765625,0,0,1.765625,1982,2728)"><path d="M373.536,532.599C415.235,518.026 410.057,506.119 412.14,506.55C424.396,509.086 435.938,554.474 413.219,596.353C372.027,672.283 262.082,642.916 248.903,578.424C237.953,524.841 277.733,492.988 278.21,492.304C279.174,490.922 271.579,471.839 275.582,447.518C287.523,374.964 358.88,368.501 367.564,404.483C375.369,436.821 353.224,450.687 337.874,462.959C288.148,502.715 287.14,503.822 288.717,506.379C304.685,532.274 344.009,542.918 373.536,532.599ZM362.969,410.575C363.036,409.835 364.955,401.16 359.078,393.836C353.653,387.075 343.909,386.102 342.444,385.956C295.3,381.249 265.768,442.331 280.515,488.492C281.212,490.672 282.372,488.932 303.855,471.953C356.76,430.139 359.39,428.406 362.969,410.575ZM263.071,552.452C252.599,612.614 316.129,660.122 375.259,630.059C429.113,602.678 413.386,523.417 396.474,526.318C386.946,527.953 363.221,547.082 323.606,535.044C294.17,526.1 287.437,505.659 284.713,507.765C283.71,508.541 265.537,528.766 263.071,552.452Z" fill="currentColor"/></g><g transform="matrix(1,0,0,1,60,-5)"><circle cx="2681" cy="3610" r="19" fill="none" stroke="currentColor" stroke-width="8.33"/></g></g></svg></a>
   <div class="rail-nav">
     <a href="index.html" class="rail-item" title="Home">
       <svg viewBox="0 0 16 16" fill="none"><path d="M2 7l6-5 6 5v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.2"/><path d="M6 14V9h4v5" stroke="currentColor" stroke-width="1.2"/></svg>
