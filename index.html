@@ -13,7 +13,7 @@
 :root{
   --bg:#F4F3EF;--surface:#FFFFFF;--surface-b:#ECEAE6;
   --ink:#111110;--ink-muted:#767472;--border:#DDDBD6;
-  --rail-w:56px;--pad:4rem;
+  --rail-w:56px;--pad:4rem;--pad-left:calc(var(--rail-w) + 2rem);
   --serif:'Fraunces',Georgia,serif;--sans:'Instrument Sans',system-ui,sans-serif;
   --g-start:#C9826B;--g-mid:#B5789A;--g-end:#7B9EC9;
   --grad:linear-gradient(90deg,var(--g-start),var(--g-mid),var(--g-end));
@@ -42,7 +42,7 @@
   --ink:#EEECEA;--ink-muted:#888886;--border:#2C2C2A;
 }
 html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;transition:background 0.3s,color 0.3s;margin-left:var(--rail-w);}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;transition:background 0.3s,color 0.3s;margin-left:0;}
 p{color:var(--ink-muted);line-height:1.75;}
 
 /* Aurora canvas sits behind everything */
@@ -70,42 +70,45 @@ p{color:var(--ink-muted);line-height:1.75;}
 [data-theme="dark"] .icon-light{display:block;}
 [data-theme="dark"] .icon-dark{display:none;}
 
-/* ── RAIL — liquid glass ── */
+/* ── RAIL — island ── */
 .rail{
-  position:fixed;top:0;left:0;bottom:0;width:var(--rail-w);
-  display:flex;flex-direction:column;align-items:center;padding:1.25rem 0;z-index:100;
+  position:fixed;
+  top:1rem;left:1rem;
+  transform:none;
+  width:var(--rail-w);
+  height:auto;
+  display:flex;flex-direction:column;align-items:center;
+  padding:1rem 0;z-index:100;
+  border-radius:100px;
 
-  /* Glass base */
+  /* Glass */
   background:color-mix(in srgb,var(--surface) 55%,transparent);
   backdrop-filter:blur(24px) saturate(180%) brightness(1.06);
   -webkit-backdrop-filter:blur(24px) saturate(180%) brightness(1.06);
-
-  /* Frosted edge + inner highlight */
-  border-right:1px solid color-mix(in srgb,var(--border) 60%,transparent);
+  border:1px solid color-mix(in srgb,var(--border) 60%,transparent);
   box-shadow:
-    inset 1px 0 0 rgba(255,255,255,0.18),
-    inset -1px 0 0 rgba(255,255,255,0.06),
-    2px 0 24px rgba(0,0,0,0.06);
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    0 4px 24px rgba(0,0,0,0.1),
+    0 1px 4px rgba(0,0,0,0.06);
 }
 
-/* Subtle specular highlight strip on the left edge */
+/* Specular highlight on top edge */
 .rail::before{
   content:'';
-  position:absolute;top:0;left:0;bottom:0;width:1px;
-  background:linear-gradient(
-    to bottom,
+  position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.45) 30%,
-    rgba(255,255,255,0.45) 70%,
+    rgba(255,255,255,0.5) 50%,
     rgba(255,255,255,0) 100%
   );
+  border-radius:100px;
   pointer-events:none;
 }
 
-/* Refraction shimmer — inner glow that shifts with aurora */
+/* Aurora tint */
 .rail::after{
   content:'';
-  position:absolute;inset:0;
+  position:absolute;inset:0;border-radius:100px;
   background:linear-gradient(
     160deg,
     rgba(201,130,107,0.07) 0%,
@@ -113,7 +116,6 @@ p{color:var(--ink-muted);line-height:1.75;}
     rgba(123,158,201,0.07) 100%
   );
   pointer-events:none;
-  border-radius:0;
 }
 
 [data-theme="dark"] .rail{
@@ -121,15 +123,13 @@ p{color:var(--ink-muted);line-height:1.75;}
   backdrop-filter:blur(24px) saturate(160%) brightness(0.92);
   -webkit-backdrop-filter:blur(24px) saturate(160%) brightness(0.92);
   box-shadow:
-    inset 1px 0 0 rgba(255,255,255,0.08),
-    2px 0 24px rgba(0,0,0,0.2);
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 4px 24px rgba(0,0,0,0.3);
 }
 [data-theme="dark"] .rail::before{
-  background:linear-gradient(
-    to bottom,
+  background:linear-gradient(90deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.12) 30%,
-    rgba(255,255,255,0.12) 70%,
+    rgba(255,255,255,0.12) 50%,
     rgba(255,255,255,0) 100%
   );
 }
@@ -142,29 +142,30 @@ p{color:var(--ink-muted);line-height:1.75;}
   );
 }
 .rail-logo{
-  width:36px;height:36px;margin-bottom:1.5rem;flex-shrink:0;
+  width:36px;height:36px;margin-bottom:0.75rem;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
 }
 .rail-logo svg{width:28px;height:37px;color:#111110;}
 [data-theme="dark"] .rail-logo svg{color:#EEECEA;}
-.rail-nav{display:flex;flex-direction:column;align-items:center;gap:0.125rem;width:100%;padding:0 0.375rem;}
-.rail-item{display:flex;flex-direction:column;align-items:center;gap:0.2rem;width:100%;padding:0.5rem 0.25rem;border-radius:6px;text-decoration:none;color:var(--ink-muted);font-size:0.475rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.15s;background:none;border:none;font-family:var(--sans);}
-.rail-item:hover{background:var(--surface-b);color:var(--ink);}
-.rail-item.active{background:var(--surface-b);color:var(--ink);}
+.rail-nav{display:flex;flex-direction:column;align-items:center;gap:0.125rem;width:100%;padding:0 0.375rem;position:relative;z-index:1;}
+.rail-item{display:flex;flex-direction:column;align-items:center;gap:0.2rem;width:100%;padding:0.5rem 0.25rem;border-radius:100px;text-decoration:none;color:var(--ink-muted);font-size:0.475rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.15s;background:none;border:none;font-family:var(--sans);}
+.rail-item:hover{background:color-mix(in srgb,var(--surface-b) 70%,transparent);color:var(--ink);}
+.rail-item.active{background:color-mix(in srgb,var(--surface-b) 70%,transparent);color:var(--ink);}
 .rail-item svg{width:15px;height:15px;}
 
 /* ── PANEL ── */
 .panel{
   height:100vh;scroll-snap-align:start;
   display:flex;flex-direction:column;justify-content:center;
-  padding:var(--pad);
+  padding:var(--pad) var(--pad-left) var(--pad) var(--pad-left);
   border-bottom:1px solid var(--border);
   overflow:hidden;
   position:relative;z-index:1;
   background:transparent;
 }
 /* inner wrapper keeps label + content grouped and centred together */
-.panel-inner{display:flex;flex-direction:column;gap:0;width:100%;}
+.panel-inner{display:flex;flex-direction:column;gap:0;width:100%;max-width:900px;margin:0 auto;}
 .sec-label{font-size:0.625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:1.5rem;}
 
 /* ═══════════ PANEL 1 — HERO ═══════════ */
@@ -255,8 +256,9 @@ footer{
   height:100vh;
   scroll-snap-align:start;
   display:flex;flex-direction:column;justify-content:center;
-  padding:var(--pad);
+  padding:var(--pad) var(--pad-left) var(--pad) var(--pad-left);
 }
+.content-wrap{max-width:900px;margin:0 auto;width:100%;}
 .foot-signoff{
   font-family:var(--serif);font-style:italic;font-weight:300;
   font-size:clamp(1rem,1.75vw,1.25rem);
@@ -456,6 +458,7 @@ footer{
 
 <!-- ═══════════ PANEL 1 — HERO ═══════════ -->
 <section class="panel" id="hero">
+  <div class="content-wrap">
   <div class="hero-eyebrow h-a1">
     <span class="dot"></span>Senior UX Designer · Ireland
   </div>
@@ -467,9 +470,8 @@ footer{
       View selected work
     </a>
   </div>
+  </div><!-- end content-wrap -->
 </section>
-
-<!-- ═══════════ PANEL 2 — WORK ═══════════ -->
 <section class="panel" id="work">
   <div class="panel-inner">
     <div class="sec-label fade">Selected work</div>
@@ -541,6 +543,7 @@ footer{
   </div><!-- end panel-inner -->
 </section>
 <footer>
+  <div class="content-wrap">
   <p class="foot-signoff fade">Thank you for your time!</p>
 
   <div class="foot-contact fade d1">
@@ -561,6 +564,7 @@ footer{
   </div>
 
   <p class="foot-copy fade d3">© Shalvi Raj 2025</p>
+  </div><!-- end content-wrap -->
 </footer>
 
 <script>
