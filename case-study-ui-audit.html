@@ -329,14 +329,28 @@ blockquote{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);font-weig
 </main>
 
 <script>
-  const root=document.documentElement,btn=document.getElementById('themeBtn'),lbl=document.getElementById('themeLbl');
-  const metaTheme=document.getElementById('theme-color-meta');
-  function updateMetaTheme(t){if(metaTheme)metaTheme.setAttribute('content',t==='dark'?'#111110':'#F4F3EF');}
-  const saved=localStorage.getItem('theme')||'dark';
-  root.setAttribute('data-theme',saved);
-  if(lbl)lbl.textContent=saved==='dark'?'Light':'Dark';
-  updateMetaTheme(saved);
-  btn.addEventListener('click',()=>{const d=root.getAttribute('data-theme')==='dark';const next=d?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('theme',next);if(lbl)lbl.textContent=d?'Dark':'Light';updateMetaTheme(next);});
+  // Theme — persist across pages
+  const root = document.documentElement;
+  const btn  = document.getElementById('themeBtn');
+  const lbl  = document.getElementById('themeLbl');
+  const metaTheme = document.getElementById('theme-color-meta');
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (lbl) lbl.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    if (metaTheme) metaTheme.setAttribute('content', theme === 'dark' ? '#111110' : '#F4F3EF');
+  }
+
+  // Apply saved theme on load
+  const saved = localStorage.getItem('theme') || 'dark';
+  applyTheme(saved);
+
+  // Toggle on click
+  btn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
   const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:0.08});
   document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
   const sections=document.querySelectorAll('[id]');

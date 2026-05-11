@@ -822,14 +822,25 @@ blockquote {
 </main>
 
 <script>
-  // Theme toggle
+  // Theme — persist across pages
   const root = document.documentElement;
   const btn  = document.getElementById('themeBtn');
   const lbl  = document.getElementById('themeLbl');
+  const metaTheme = document.getElementById('theme-color-meta');
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    if (lbl) lbl.textContent = theme === 'dark' ? 'Light' : 'Dark';
+    if (metaTheme) metaTheme.setAttribute('content', theme === 'dark' ? '#111110' : '#F4F3EF');
+  }
+
+  const saved = localStorage.getItem('theme') || 'dark';
+  applyTheme(saved);
+
   btn.addEventListener('click', () => {
-    const dark = root.getAttribute('data-theme') === 'dark';
-    root.setAttribute('data-theme', dark ? 'light' : 'dark');
-    lbl.textContent = dark ? 'Dark' : 'Light';
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
   });
 
   // Fade on scroll
