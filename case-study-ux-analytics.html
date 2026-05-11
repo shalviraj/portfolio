@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Analytics — Shalvi Raj</title>
+<script>!function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}();</script>
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta id="theme-color-meta" name="theme-color" content="#111110">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F4F3EF;--surface:#FFFFFF;--surface-b:#ECEAE6;
+  --ink:#111110;--ink-muted:#767472;--border:#DDDBD6;
+  --rail-w:56px;--panel-w:188px;--sidebar-w:244px;
+  --serif:'Fraunces',Georgia,serif;--sans:'Instrument Sans',system-ui,sans-serif;
+}
+[data-theme="dark"]{--bg:#111110;--surface:#1A1A18;--surface-b:#222220;--ink:#EEECEA;--ink-muted:#888886;--border:#2C2C2A;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;transition:background 0.3s,color 0.3s;}
+p{font-size:0.9rem;color:var(--ink-muted);line-height:1.75;}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.5rem,2.5vw,2rem);line-height:1.2;letter-spacing:-0.01em;color:var(--ink);margin-bottom:0.5rem;}
+h3{font-family:var(--serif);font-weight:300;font-size:1.125rem;color:var(--ink);margin-bottom:0.375rem;}
+
+/* FAB */
+.fab{position:fixed;top:1.25rem;right:1.25rem;z-index:500;display:flex;align-items:center;gap:0.375rem;font-size:0.6875rem;font-family:var(--sans);letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-muted);background:color-mix(in srgb,var(--surface) 60%,transparent);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid color-mix(in srgb,var(--border) 55%,transparent);padding:0.4rem 0.875rem;border-radius:100px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 2px 16px rgba(0,0,0,0.08);transition:all 0.2s;}
+.fab:hover{color:var(--ink);}
+.fab svg{width:12px;height:12px;}
+.icon-light{display:none;}
+[data-theme="dark"] .icon-light{display:block;}
+[data-theme="dark"] .icon-dark{display:none;}
+
+/* RAIL */
+.rail{position:fixed;top:0;left:0;bottom:0;width:var(--rail-w);display:flex;flex-direction:column;align-items:center;padding:1rem 0;z-index:101;background:color-mix(in srgb,var(--surface) 55%,transparent);backdrop-filter:blur(24px) saturate(180%) brightness(1.06);-webkit-backdrop-filter:blur(24px) saturate(180%) brightness(1.06);border-right:1px solid color-mix(in srgb,var(--border) 60%,transparent);box-shadow:inset 1px 0 0 rgba(255,255,255,0.18),2px 0 24px rgba(0,0,0,0.06);}
+.rail::before{content:'';position:absolute;top:0;left:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0.45) 30%,rgba(255,255,255,0.45) 70%,rgba(255,255,255,0) 100%);pointer-events:none;}
+.rail::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(201,130,107,0.07) 0%,rgba(181,120,154,0.05) 40%,rgba(123,158,201,0.07) 100%);pointer-events:none;}
+[data-theme="dark"] .rail{background:color-mix(in srgb,#1A1A18 60%,transparent);backdrop-filter:blur(24px) saturate(160%) brightness(0.92);-webkit-backdrop-filter:blur(24px) saturate(160%) brightness(0.92);}
+.rail-logo{width:36px;height:36px;margin-bottom:1.5rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;}
+.rail-logo svg{width:28px;height:37px;color:#111110;}
+[data-theme="dark"] .rail-logo svg{color:#EEECEA;}
+.rail-nav{display:flex;flex-direction:column;align-items:center;gap:0.25rem;width:100%;padding:0 0.5rem;margin-bottom:auto;position:relative;z-index:1;}
+.rail-item{display:flex;flex-direction:column;align-items:center;gap:0.25rem;width:100%;padding:0.5rem 0.25rem;border-radius:6px;text-decoration:none;color:var(--ink-muted);font-size:0.475rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.15s;}
+.rail-item:hover{background:var(--surface-b);color:var(--ink);}
+.rail-item.active{background:var(--surface-b);color:var(--ink);}
+.rail-item svg{width:15px;height:15px;}
+
+/* PANEL */
+.panel{position:fixed;top:0;left:var(--rail-w);bottom:0;width:var(--panel-w);background:var(--bg);border-right:1px solid var(--border);overflow-y:auto;padding:0 0 5rem;z-index:100;}
+.panel-header{padding:1.25rem 1rem 1rem;border-bottom:1px solid var(--border);margin-bottom:1.25rem;position:sticky;top:0;background:var(--bg);z-index:1;}
+.panel-label{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.3rem;}
+.panel-title{font-family:var(--serif);font-size:0.9375rem;color:var(--ink);line-height:1.3;}
+.nav-group{margin-bottom:1.25rem;padding:0 0.875rem;}
+.nav-group-label{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.375rem;padding-left:0.375rem;}
+.nav-items{list-style:none;display:flex;flex-direction:column;gap:0.125rem;}
+.nav-item a{display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:var(--ink-muted);text-decoration:none;padding:0.35rem 0.5rem;border-radius:5px;transition:all 0.15s;}
+.nav-item a:hover{background:var(--surface);color:var(--ink);}
+.nav-item.active a{background:var(--surface);color:var(--ink);font-weight:500;}
+.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.15s;}
+.nav-item.active .nav-dot{background:var(--ink);}
+.nav-phase-tag{font-size:0.5rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-muted);background:var(--surface);padding:0.1rem 0.35rem;border-radius:3px;margin-left:auto;border:1px solid var(--border);}
+.panel-footer{position:absolute;bottom:0;left:0;right:0;padding:0.875rem 1rem;border-top:1px solid var(--border);background:var(--bg);}
+.sidebar-next{font-size:0.6875rem;color:var(--ink-muted);text-decoration:none;display:flex;flex-direction:column;gap:0.2rem;}
+.sidebar-next:hover .sidebar-next-title{color:var(--ink);}
+.sidebar-next-label{font-size:0.5rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.6;}
+.sidebar-next-title{font-family:var(--serif);font-size:0.8125rem;color:var(--ink-muted);}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh;}
+.section{max-width:720px;margin:0 auto;padding:4rem 3rem;position:relative;}
+.section::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100vw;height:1px;background:var(--border);}
+.section:last-child::after{display:none;}
+.section-label{font-size:0.625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;}
+.phase-badge{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.06em;background:var(--surface-b);color:var(--ink-muted);padding:0.15rem 0.5rem;border-radius:3px;border:1px solid var(--border);}
+.hero-section{padding:4rem 3rem 3rem;max-width:720px;margin:0 auto;position:relative;}
+.hero-section::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100vw;height:1px;background:var(--border);}
+.chips{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.75rem;}
+.chip{font-size:0.625rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:100px;border:1px solid var(--border);color:var(--ink-muted);}
+.chip-on{border-color:var(--ink);color:var(--ink);}
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.25rem,4vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;color:var(--ink);margin-bottom:1rem;}
+h1 em{font-style:italic;color:var(--ink-muted);}
+.hero-sub{font-size:0.9375rem;color:var(--ink-muted);max-width:480px;line-height:1.7;margin-bottom:2.5rem;}
+.hero-meta{display:flex;gap:2.5rem;padding-top:1.75rem;border-top:1px solid var(--border);flex-wrap:wrap;}
+.meta-label{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);margin-bottom:0.2rem;}
+.meta-val{font-size:0.8125rem;color:var(--ink);}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:2rem;}
+.stat-cell{background:var(--bg);padding:1.25rem 1rem;}
+.stat-n{font-family:var(--serif);font-size:2rem;font-weight:300;color:var(--ink);line-height:1;}
+.stat-l{font-size:0.75rem;color:var(--ink-muted);margin-top:0.2rem;line-height:1.3;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1.75rem;}
+.divider{display:none;}
+.pt-item{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1.25rem 0;align-items:start;}
+.pt-year{font-size:0.6875rem;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.08em;padding-top:0.2rem;}
+.pt-title{font-family:var(--serif);font-size:1rem;color:var(--ink);margin-bottom:0.5rem;}
+.pt-list{list-style:none;display:flex;flex-direction:column;gap:0.25rem;}
+.pt-list li{font-size:0.8rem;color:var(--ink-muted);line-height:1.4;padding-left:0.875rem;position:relative;}
+.pt-list li::before{content:'—';position:absolute;left:0;opacity:0.35;}
+.d-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:1.75rem;}
+.d-card{background:var(--bg);padding:1.5rem;}
+.d-num{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-muted);margin-bottom:0.625rem;}
+.d-title{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--ink);margin-bottom:0.375rem;line-height:1.3;}
+.d-desc{font-size:0.8rem;color:var(--ink-muted);line-height:1.6;}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:0.375rem;margin-top:1rem;}
+.tag{font-size:0.75rem;border:1px solid var(--border);color:var(--ink-muted);padding:0.2rem 0.6rem;border-radius:100px;}
+.r-cards{display:flex;flex-direction:column;gap:0.75rem;}
+.r-card{border:1px solid var(--border);border-radius:8px;padding:1.25rem;background:var(--surface);}
+.r-card-label{font-size:0.5625rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);margin-bottom:0.875rem;}
+.r-n{font-family:var(--serif);font-size:1.75rem;font-weight:300;color:var(--ink);line-height:1;}
+.r-l{font-size:0.75rem;color:var(--ink-muted);margin-top:0.15rem;}
+blockquote{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.5rem);font-weight:300;font-style:italic;color:var(--ink);line-height:1.55;border-left:2px solid var(--ink);padding-left:1.5rem;margin-top:1.5rem;}
+.quote-attr{margin-top:1rem;font-size:0.8rem;color:var(--ink-muted);padding-left:1.5rem;}
+.fade{opacity:0;transform:translateY(12px);transition:opacity 0.55s ease,transform 0.55s ease;}
+.fade.in{opacity:1;transform:none;}
+
+/* BOTTOM NAV */
+.bottom-nav{display:none;position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);z-index:600;width:auto;padding:0.5rem 0.5rem;border-radius:100px;background:color-mix(in srgb,var(--surface) 55%,transparent);backdrop-filter:blur(24px) saturate(180%) brightness(1.06);-webkit-backdrop-filter:blur(24px) saturate(180%) brightness(1.06);border:1px solid color-mix(in srgb,var(--border) 60%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 4px 24px rgba(0,0,0,0.1);}
+.bottom-nav::before{content:"";position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0) 100%);border-radius:100px;pointer-events:none;}
+.bottom-nav::after{content:"";position:absolute;inset:0;border-radius:100px;background:linear-gradient(135deg,rgba(201,130,107,0.07) 0%,rgba(181,120,154,0.05) 50%,rgba(123,158,201,0.07) 100%);pointer-events:none;}
+[data-theme="dark"] .bottom-nav{background:color-mix(in srgb,#1A1A18 60%,transparent);backdrop-filter:blur(24px) saturate(160%) brightness(0.92);-webkit-backdrop-filter:blur(24px) saturate(160%) brightness(0.92);}
+.bottom-nav-inner{display:flex;align-items:center;gap:0.25rem;position:relative;z-index:1;}
+.bottom-nav-item{display:flex;flex-direction:column;align-items:center;gap:0.2rem;text-decoration:none;color:var(--ink-muted);font-size:0.5rem;text-transform:uppercase;letter-spacing:0.06em;font-family:var(--sans);padding:0.5rem 1.25rem;border-radius:100px;transition:all 0.2s;white-space:nowrap;}
+.bottom-nav-item.active{color:var(--ink);background:color-mix(in srgb,var(--surface-b) 70%,transparent);}
+.bottom-nav-item svg{width:18px;height:18px;margin-bottom:0.1rem;}
+
+@media(max-width:860px){
+  :root{--rail-w:0px;--panel-w:0px;--sidebar-w:0px;}
+  .rail,.panel{display:none;}
+  .bottom-nav{display:block;}
+  .main{margin-left:0;padding-bottom:5rem;}
+  .section,.hero-section{padding:3rem 1.5rem;}
+  .two-col,.d-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  h1{font-size:2.25rem;}
+}
+</style>
+</head>
+<body>
+
+<button class="fab" id="themeBtn" aria-label="Toggle theme">
+  <svg class="icon-light" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="0.5" x2="7" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="12" x2="7" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="0.5" y1="7" x2="2" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="12" y1="7" x2="13.5" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="2.4" y1="2.4" x2="3.4" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="10.6" y1="10.6" x2="11.6" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="11.6" y1="2.4" x2="10.6" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.4" y1="10.6" x2="2.4" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  <svg class="icon-dark" viewBox="0 0 14 14" fill="none"><path d="M11.5 8.5A5 5 0 015.5 2.5a5 5 0 000 9 5 5 0 006-3z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+  <span id="themeLbl">Light</span>
+</button>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html" class="bottom-nav-item"><svg viewBox="0 0 16 16" fill="none"><path d="M2 7l6-5 6 5v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.2"/><path d="M6 14V9h4v5" stroke="currentColor" stroke-width="1.2"/></svg>Home</a>
+    <a href="work.html" class="bottom-nav-item active"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg>Work</a>
+    <a href="about.html" class="bottom-nav-item"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2.5 14c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>About</a>
+  </div>
+</nav>
+
+<aside class="rail">
+  <a href="index.html" class="rail-logo" title="Shalvi Raj"><svg viewBox="0 0 347 457" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1,0,0,1,-2418.104098,-3404.493534)"><g transform="matrix(1.765625,0,0,1.765625,1982,2728)"><path d="M373.536,532.599C415.235,518.026 410.057,506.119 412.14,506.55C424.396,509.086 435.938,554.474 413.219,596.353C372.027,672.283 262.082,642.916 248.903,578.424C237.953,524.841 277.733,492.988 278.21,492.304C279.174,490.922 271.579,471.839 275.582,447.518C287.523,374.964 358.88,368.501 367.564,404.483C375.369,436.821 353.224,450.687 337.874,462.959C288.148,502.715 287.14,503.822 288.717,506.379C304.685,532.274 344.009,542.918 373.536,532.599ZM362.969,410.575C363.036,409.835 364.955,401.16 359.078,393.836C353.653,387.075 343.909,386.102 342.444,385.956C295.3,381.249 265.768,442.331 280.515,488.492C281.212,490.672 282.372,488.932 303.855,471.953C356.76,430.139 359.39,428.406 362.969,410.575ZM263.071,552.452C252.599,612.614 316.129,660.122 375.259,630.059C429.113,602.678 413.386,523.417 396.474,526.318C386.946,527.953 363.221,547.082 323.606,535.044C294.17,526.1 287.437,505.659 284.713,507.765C283.71,508.541 265.537,528.766 263.071,552.452Z" fill="currentColor"/></g><g transform="matrix(1,0,0,1,60,-5)"><circle cx="2681" cy="3610" r="19" fill="none" stroke="currentColor" stroke-width="8.33"/></g></g></svg></a>
+  <div class="rail-nav">
+    <a href="index.html" class="rail-item" title="Home"><svg viewBox="0 0 16 16" fill="none"><path d="M2 7l6-5 6 5v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7z" stroke="currentColor" stroke-width="1.2"/><path d="M6 14V9h4v5" stroke="currentColor" stroke-width="1.2"/></svg>Home</a>
+    <a href="work.html" class="rail-item active" title="Work"><svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.2"/></svg>Work</a>
+    <a href="about.html" class="rail-item" title="About"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M2.5 14c0-3.038 2.462-5.5 5.5-5.5s5.5 2.462 5.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>About</a>
+  </div>
+</aside>
+
+<aside class="panel">
+  <div class="panel-header">
+    <div class="panel-label">Case study</div>
+    <div class="panel-title">UX Analytics &amp; Dashboard</div>
+  </div>
+  <nav class="nav-group">
+    <div class="nav-group-label">Overview</div>
+    <ul class="nav-items">
+      <li class="nav-item active" data-section="overview"><a href="#overview"><span class="nav-dot"></span>Overview</a></li>
+      <li class="nav-item" data-section="introduction"><a href="#introduction"><span class="nav-dot"></span>Introduction</a></li>
+      <li class="nav-item" data-section="problem"><a href="#problem"><span class="nav-dot"></span>Problem</a></li>
+      <li class="nav-item" data-section="role"><a href="#role"><span class="nav-dot"></span>My Role</a></li>
+    </ul>
+  </nav>
+  <nav class="nav-group">
+    <div class="nav-group-label">Design Process</div>
+    <ul class="nav-items">
+      <li class="nav-item" data-section="research"><a href="#research"><span class="nav-dot"></span>Strategy <span class="nav-phase-tag">2025</span></a></li>
+      <li class="nav-item" data-section="concept"><a href="#concept"><span class="nav-dot"></span>Dashboard <span class="nav-phase-tag">2025</span></a></li>
+    </ul>
+  </nav>
+  <nav class="nav-group">
+    <div class="nav-group-label">Results</div>
+    <ul class="nav-items">
+      <li class="nav-item" data-section="reflection"><a href="#reflection"><span class="nav-dot"></span>Reflection</a></li>
+    </ul>
+  </nav>
+  <div class="panel-footer">
+    <a href="work.html" class="sidebar-next">
+      <span class="sidebar-next-label">All case studies</span>
+      <span class="sidebar-next-title">Back to work →</span>
+    </a>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div id="overview" class="hero-section">
+    <div class="chips">
+      <span class="chip">UX Design</span>
+      <span class="chip">B2B SaaS</span>
+      <span class="chip">2025</span>
+      <span class="chip chip-on">Live</span>
+    </div>
+    <h1>UX Analytics<br><em>&amp; dashboard</em></h1>
+    <p class="hero-sub">Building a UX analytics strategy and live Power BI dashboard to make user behaviour visible — enabling data-informed design decisions across the Myzel platform.</p>
+    <div class="hero-meta">
+      <div><div class="meta-label">Role</div><div class="meta-val">Lead UX Designer</div></div>
+      <div><div class="meta-label">Platform</div><div class="meta-val">Myzel — Pilz</div></div>
+      <div><div class="meta-label">Domain</div><div class="meta-val">Industrial safety software</div></div>
+      <div><div class="meta-label">Status</div><div class="meta-val">Live dashboard</div></div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-cell fade"><div class="stat-n">4</div><div class="stat-l">Modules tracked</div></div>
+      <div class="stat-cell fade"><div class="stat-n">28+</div><div class="stat-l">Countries in data</div></div>
+      <div class="stat-cell fade"><div class="stat-n">1</div><div class="stat-l">Live dashboard</div></div>
+    </div>
+  </div>
+
+  <div id="introduction" class="section fade">
+    <div class="section-label">Introduction</div>
+    <h2>Making user behaviour visible</h2>
+    <p style="margin-top:1rem;">Design decisions on Myzel were being made without behavioural data — based on intuition, stakeholder feedback, and usability testing alone. As the platform scaled across modules and markets, the gap between what we assumed users were doing and what they were actually doing became a risk.</p>
+    <p style="margin-top:1rem;">I built a UX analytics strategy from scratch — researching frameworks, evaluating tooling, and delivering a live Power BI dashboard that gives the team visibility into real feature adoption and usage patterns.</p>
+  </div>
+
+  <div id="problem" class="section fade">
+    <div class="section-label">Problem</div>
+    <h2>Designing blind in a complex B2B platform</h2>
+    <p style="margin-top:1rem;">Standard consumer analytics frameworks don't apply to domain-specific B2B tools where users are professional operators following structured workflows. We needed a UX analytics approach built for how Myzel is actually used — not borrowed from e-commerce or social media contexts.</p>
+  </div>
+
+  <div id="role" class="section fade">
+    <div class="section-label">My Role</div>
+    <h2>Strategy, tooling, and delivery</h2>
+    <p style="margin-top:1rem;">I owned this end to end — from the initial framework research through to the live dashboard presented to management. This was a solo initiative, self-directed alongside the main design work, requiring me to learn new tools under time pressure.</p>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label" style="margin-bottom:0.5rem;">What I owned</div>
+        <ul class="pt-list" style="margin-top:0;">
+          <li>Analytics framework design</li>
+          <li>Matomo audit and configuration</li>
+          <li>Power BI dashboard build</li>
+          <li>Figma target state design</li>
+          <li>Management presentation and demo</li>
+        </ul>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:0.5rem;">Tools &amp; sources</div>
+        <ul class="pt-list" style="margin-top:0;">
+          <li>Matomo analytics</li>
+          <li>Power BI</li>
+          <li>NNG / IDF / Google frameworks</li>
+          <li>Figma</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="research" class="section fade">
+    <div class="section-label">Design Process <span class="phase-badge">Strategy · 2025</span></div>
+    <h2>Building the framework</h2>
+    <p style="margin-top:1rem;">Before touching any tooling, I researched UX analytics frameworks from NNG, IDF, and Google — adapting them to the specific context of a B2B safety platform with professional users following structured workflows.</p>
+    <div class="divider"></div>
+    <div class="pt-item">
+      <div class="pt-year">Framework</div>
+      <div>
+        <div class="pt-title">UX metrics aligned to platform goals</div>
+        <p>Defined the right metrics for Myzel — feature adoption rates, session patterns, workflow completion, and device/browser coverage. Deliberately excluded vanity metrics that wouldn't drive design decisions.</p>
+      </div>
+    </div>
+    <div class="pt-item">
+      <div class="pt-year">Tooling</div>
+      <div>
+        <div class="pt-title">Matomo audit and Power BI build</div>
+        <p>Audited our existing Matomo configuration, corrected tracking gaps, and extracted the data needed. Learned Power BI under time pressure to build the dashboard — designing the target state in Figma first, then building toward it.</p>
+      </div>
+    </div>
+    <div class="pt-item">
+      <div class="pt-year">Delivery</div>
+      <div>
+        <div class="pt-title">Live demo to management</div>
+        <p>Presented the live dashboard to the management team — showing real feature adoption data across all modules for the first time. The dashboard has been in active use since.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="concept" class="section fade">
+    <div class="section-label">Design Process <span class="phase-badge">Dashboard · 2025</span></div>
+    <h2>What the dashboard tracks</h2>
+    <p style="margin-top:1rem;">The live Power BI dashboard gives the team visibility into user behaviour across the platform — filterable by tenant, workflow, and month.</p>
+    <div class="divider"></div>
+    <div class="d-grid">
+      <div class="d-card">
+        <div class="d-num">01</div>
+        <div class="d-title">Feature adoption rates</div>
+        <p class="d-desc">Adoption tracked across all four live modules — showing which features are being used, at what rate, and how that changes over time.</p>
+      </div>
+      <div class="d-card">
+        <div class="d-num">02</div>
+        <div class="d-title">Visitor trends</div>
+        <p class="d-desc">Daily and peak visitor counts across the platform and per module — with month-wise filters to identify usage patterns and seasonal variation.</p>
+      </div>
+      <div class="d-card">
+        <div class="d-num">03</div>
+        <div class="d-title">Device &amp; browser breakdown</div>
+        <p class="d-desc">OS, browser, and device data — critical for a platform used both in office and on the factory floor, where device diversity is high.</p>
+      </div>
+      <div class="d-card">
+        <div class="d-num">04</div>
+        <div class="d-title">Tenant-level filtering</div>
+        <p class="d-desc">All data filterable by tenant — enabling comparison between different customer types and identifying where specific user groups need design attention.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="reflection" class="section fade">
+    <div class="section-label">Reflection</div>
+    <h2>What zero-to-one requires</h2>
+    <blockquote>"You can't design for behaviour you can't see. The dashboard didn't just give us data — it changed how we talk about design decisions."</blockquote>
+    <p class="quote-attr">Building this from scratch — framework, tooling, and delivery — was the most technically challenging solo project I've undertaken. Learning Power BI under time pressure while maintaining design output elsewhere required careful prioritisation. The result is a dashboard the team uses in real product conversations, which is the only metric that matters.</p>
+  </div>
+
+</main>
+
+<script>
+  const root=document.documentElement,btn=document.getElementById('themeBtn'),lbl=document.getElementById('themeLbl');
+  const metaTheme=document.getElementById('theme-color-meta');
+  function updateMetaTheme(t){if(metaTheme)metaTheme.setAttribute('content',t==='dark'?'#111110':'#F4F3EF');}
+  const saved=localStorage.getItem('theme')||'dark';
+  root.setAttribute('data-theme',saved);
+  if(lbl)lbl.textContent=saved==='dark'?'Light':'Dark';
+  updateMetaTheme(saved);
+  btn.addEventListener('click',()=>{const d=root.getAttribute('data-theme')==='dark';const next=d?'light':'dark';root.setAttribute('data-theme',next);localStorage.setItem('theme',next);if(lbl)lbl.textContent=d?'Dark':'Light';updateMetaTheme(next);});
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:0.08});
+  document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+  const sections=document.querySelectorAll('[id]');
+  const navItems=document.querySelectorAll('.nav-item[data-section]');
+  window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(s.getBoundingClientRect().top<=80)c=s.id;});navItems.forEach(i=>{i.classList.toggle('active',i.dataset.section===c);});},{passive:true});
+</script>
+</body>
+</html>

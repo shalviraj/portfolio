@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shalvi Raj — UX Designer</title>
+<script>!function(){var t=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",t)}();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -144,7 +145,8 @@ p{color:var(--ink-muted);line-height:1.75;}
   width:36px;height:36px;margin-bottom:1.5rem;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
 }
-.rail-logo svg{width:36px;height:36px;}
+.rail-logo svg{width:28px;height:37px;color:#111110;}
+[data-theme="dark"] .rail-logo svg{color:#EEECEA;}
 .rail-nav{display:flex;flex-direction:column;align-items:center;gap:0.125rem;width:100%;padding:0 0.375rem;}
 .rail-item{display:flex;flex-direction:column;align-items:center;gap:0.2rem;width:100%;padding:0.5rem 0.25rem;border-radius:6px;text-decoration:none;color:var(--ink-muted);font-size:0.475rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.15s;background:none;border:none;font-family:var(--sans);}
 .rail-item:hover{background:var(--surface-b);color:var(--ink);}
@@ -397,6 +399,9 @@ footer{
   .fab{top:1rem;right:1rem;}
 }
 </style>
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F4F3EF" media="(prefers-color-scheme: light)">
+<meta id="theme-color-meta" name="theme-color" content="#111110">
 </head>
 <body>
 
@@ -407,7 +412,7 @@ footer{
 <button class="fab" id="themeBtn" aria-label="Toggle theme">
   <svg class="icon-light" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="0.5" x2="7" y2="2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="7" y1="12" x2="7" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="0.5" y1="7" x2="2" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="12" y1="7" x2="13.5" y2="7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="2.4" y1="2.4" x2="3.4" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="10.6" y1="10.6" x2="11.6" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="11.6" y1="2.4" x2="10.6" y2="3.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="3.4" y1="10.6" x2="2.4" y2="11.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
   <svg class="icon-dark" viewBox="0 0 14 14" fill="none"><path d="M11.5 8.5A5 5 0 015.5 2.5a5 5 0 000 9 5 5 0 006-3z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-  <span id="themeLbl">Dark</span>
+  <span id="themeLbl">Light</span>
 </button>
 
 <!-- BOTTOM NAV (mobile) -->
@@ -430,16 +435,7 @@ footer{
 <aside class="rail">
   <!-- SR monogram -->
   <a href="index.html" class="rail-logo" title="Shalvi Raj">
-    <svg viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- R stem -->
-      <line x1="12" y1="8" x2="12" y2="42" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"/>
-      <!-- R bowl -->
-      <path d="M12 8 Q26 8 26 17 Q26 26 12 26" stroke="var(--ink)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <!-- R leg -->
-      <path d="M12 26 Q20 26 28 42" stroke="var(--ink)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-      <!-- S overlapping -->
-      <path d="M26 10 Q32 5 30 13 Q28 18 18 20 Q8 22 10 29 Q12 36 22 33" stroke="var(--ink)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-    </svg>
+    <svg viewBox="0 0 347 457" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.5;"><g transform="matrix(1,0,0,1,-2418.104098,-3404.493534)"><g transform="matrix(1.765625,0,0,1.765625,1982,2728)"><path d="M373.536,532.599C415.235,518.026 410.057,506.119 412.14,506.55C424.396,509.086 435.938,554.474 413.219,596.353C372.027,672.283 262.082,642.916 248.903,578.424C237.953,524.841 277.733,492.988 278.21,492.304C279.174,490.922 271.579,471.839 275.582,447.518C287.523,374.964 358.88,368.501 367.564,404.483C375.369,436.821 353.224,450.687 337.874,462.959C288.148,502.715 287.14,503.822 288.717,506.379C304.685,532.274 344.009,542.918 373.536,532.599ZM362.969,410.575C363.036,409.835 364.955,401.16 359.078,393.836C353.653,387.075 343.909,386.102 342.444,385.956C295.3,381.249 265.768,442.331 280.515,488.492C281.212,490.672 282.372,488.932 303.855,471.953C356.76,430.139 359.39,428.406 362.969,410.575ZM263.071,552.452C252.599,612.614 316.129,660.122 375.259,630.059C429.113,602.678 413.386,523.417 396.474,526.318C386.946,527.953 363.221,547.082 323.606,535.044C294.17,526.1 287.437,505.659 284.713,507.765C283.71,508.541 265.537,528.766 263.071,552.452Z" fill="currentColor"/></g><g transform="matrix(1,0,0,1,60,-5)"><circle cx="2681" cy="3610" r="19" fill="none" stroke="currentColor" stroke-width="8.33"/></g></g></svg>
   </a>
 
   <div class="rail-nav">
@@ -486,28 +482,28 @@ footer{
       <div class="wcard-chips"><span class="wcard-chip">End-to-end</span><span class="wcard-chip">Shipped</span><span class="wcard-chip">28 countries</span></div>
       <span class="wcard-arrow">→</span>
     </a>
-    <a href="work.html" class="wcard fade d1">
-      <div class="wcard-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="9" y1="5.5" x2="11" y2="5.5" stroke="currentColor" stroke-width="1.3" stroke-dasharray="1.5 1.5"/></svg></div>
+    <a href="case-study-safety-designer.html" class="wcard fade d1">
+      <div class="wcard-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.3" stroke-dasharray="3 2"/><circle cx="10" cy="5.5" r="1.75" fill="currentColor" opacity="0.25"/><circle cx="14.5" cy="12.5" r="1.75" fill="currentColor"/><circle cx="5.5" cy="12.5" r="1.75" fill="currentColor" opacity="0.25"/></svg></div>
       <div class="wcard-num">02</div>
+      <div class="wcard-title">Safety Designer</div>
+      <div class="wcard-year">2025</div>
+      <div class="wcard-chips"><span class="wcard-chip">Zero-to-one</span><span class="wcard-chip">Discovery</span></div>
+      <span class="wcard-arrow">→</span>
+    </a>
+    <a href="case-study-ui-audit.html" class="wcard fade d2">
+      <div class="wcard-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="9" y1="5.5" x2="11" y2="5.5" stroke="currentColor" stroke-width="1.3" stroke-dasharray="1.5 1.5"/></svg></div>
+      <div class="wcard-num">03</div>
       <div class="wcard-title">UI Consistency Audit</div>
       <div class="wcard-year">2024</div>
       <div class="wcard-chips"><span class="wcard-chip">Systems</span><span class="wcard-chip">Heuristics</span></div>
       <span class="wcard-arrow">→</span>
     </a>
-    <a href="work.html" class="wcard fade d2">
+    <a href="case-study-ux-analytics.html" class="wcard fade d3">
       <div class="wcard-icon"><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="11" width="3" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="7.5" width="3" height="10.5" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="14" y="4" width="3" height="14" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M3 5l5-3 5.5 3.5L19 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="wcard-num">03</div>
+      <div class="wcard-num">04</div>
       <div class="wcard-title">UX Analytics &amp; Dashboard</div>
       <div class="wcard-year">2025</div>
       <div class="wcard-chips"><span class="wcard-chip">Strategic UX</span><span class="wcard-chip">Power BI</span></div>
-      <span class="wcard-arrow">→</span>
-    </a>
-    <a href="work.html" class="wcard fade d3">
-      <div class="wcard-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.3" stroke-dasharray="3 2"/><circle cx="10" cy="5.5" r="1.75" fill="currentColor" opacity="0.25"/><circle cx="14.5" cy="12.5" r="1.75" fill="currentColor"/><circle cx="5.5" cy="12.5" r="1.75" fill="currentColor" opacity="0.25"/></svg></div>
-      <div class="wcard-num">04</div>
-      <div class="wcard-title">Safety Designer</div>
-      <div class="wcard-year">2025 – ongoing</div>
-      <div class="wcard-chips"><span class="wcard-chip">Zero-to-one</span><span class="wcard-chip">Discovery</span></div>
       <span class="wcard-arrow">→</span>
     </a>
   </div><!-- end work-cards -->
